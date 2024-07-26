@@ -31,7 +31,7 @@ const Songs = ({ token }) => {
           toast.error("Login First");
           setTimeout(() => {
             router("/login");
-          }, 2000);
+          }, 1000);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -72,4 +72,4 @@ const Songs = ({ token }) => {
   );
 };
 
-export default Songs;
+export default Songs; 

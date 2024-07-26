@@ -40,6 +40,7 @@ const Signup = () => {
       const toMain = () => navigateTM("/content");
 
       if (response.ok) {
+        console.log(response);
         toast.success("SignUp Successfull Taking you to the Main Page")
         toMain();
         setName("");

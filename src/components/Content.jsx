@@ -7,6 +7,15 @@ import Header from "./Header";
 const Content = ({ token }) => {
   const router = useNavigate();
 
+  const [trending, setTrendingSongs] = useState([]);
+  const [week20, setWeek20] = useState([]);
+  const [month50, setMonth50] = useState([]);
+  const [evergreen, setEvergreen] = useState([]);
+  const [happy, setHappy] = useState([]);
+  const [romantic, setRomantic] = useState([]);
+  const [excited, setExcited] = useState([]);
+  const [sad, setSad] = useState([]);
+
   useEffect(() => {
     fetchVideos1();
     fetchVideos2();
@@ -79,18 +88,11 @@ const Content = ({ token }) => {
       setSad
     );
 
-  const [trending, setTrendingSongs] = useState([]);
-  const [week20, setWeek20] = useState([]);
-  const [month50, setMonth50] = useState([]);
-  const [evergreen, setEvergreen] = useState([]);
-  const [happy, setHappy] = useState([]);
-  const [romantic, setRomantic] = useState([]);
-  const [excited, setExcited] = useState([]);
-  const [sad, setSad] = useState([]);
 
   return (
     <>
     <Header/>
+    <div className="space"></div>
     <div className="box-container">
 
       <div className="trending">
