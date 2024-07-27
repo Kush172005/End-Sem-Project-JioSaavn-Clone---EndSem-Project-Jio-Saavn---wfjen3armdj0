@@ -39,7 +39,7 @@
 
 }
 
-.space{
+.space {
   height: 2rem;
   width: 100%;
 }
@@ -75,6 +75,17 @@
   cursor: pointer;
   height: 15rem;
   width: 12rem;
+}
+
+.item-container {
+  transition: transform 300ms;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .item-container:hover {
+    transform: scale(1.1);
+  }
 }
 
 .song-item img {
@@ -113,3 +124,13 @@
 .item-artist {
   display: inline;
 }
+
+.loader-parent{
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+
+

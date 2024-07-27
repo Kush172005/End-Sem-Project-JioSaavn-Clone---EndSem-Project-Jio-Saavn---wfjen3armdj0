@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Content.css";
-import Header from "./Header";
-
+import { HashLoader } from "react-spinners";
 
 const Content = ({ token }) => {
   const router = useNavigate();
@@ -15,16 +14,23 @@ const Content = ({ token }) => {
   const [romantic, setRomantic] = useState([]);
   const [excited, setExcited] = useState([]);
   const [sad, setSad] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchVideos1();
-    fetchVideos2();
-    fetchVideos3();
-    fetchVideos4();
-    fetchVideos5();
-    fetchVideos6();
-    fetchVideos7();
-    fetchVideos8();
+    const fetchAllVideos = async () => {
+      await Promise.all([
+        fetchVideos1(),
+        fetchVideos2(),
+        fetchVideos3(),
+        fetchVideos4(),
+        fetchVideos5(),
+        fetchVideos6(),
+        fetchVideos7(),
+        fetchVideos8(),
+      ]);
+      setLoading(false);
+    };
+    fetchAllVideos();
   }, []);
 
   const fetchData = async (url, setter) => {
@@ -88,254 +94,281 @@ const Content = ({ token }) => {
       setSad
     );
 
-
   return (
     <>
-    <Header/>
-    <div className="space"></div>
-    <div className="box-container">
-
-      <div className="trending">
-        <h1 className="section-title">Trending Songs</h1>
-
-        <div className="songs">
-          {trending.map((item) => (
-            <div
-              className="song-item"
-              key={item._id}
-              onClick={() => router(`/song/${item._id}`)}
-            >
-              <div className="item-container">
-                {item.thumbnail ? (
-                  <img src={item.thumbnail} alt={`${item.name} thumbnail`} />
-                ) : (
-                  <p>No thumbnail available</p>
-                )}
-                <h2 className="item-title">{item.title}</h2>
-                <div className="item-artists">
-                  {item.artist.map((artist, index) => (
-                    <span key={index} className="item-artist">
-                      {artist.name},{" "}
-                    </span>
-                  ))}
-                </div>
+      {loading ? (
+        <div className="loader-parent">
+          <div className="loading-child">
+            <HashLoader
+              color={"#bcbbbb"}
+              size={80}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className="space"></div>
+          <div className="box-container">
+            <div className="trending">
+              <h1 className="section-title">Trending Songs</h1>
+              <div className="songs">
+                {trending.map((item) => (
+                  <div
+                    className="song-item "
+                    key={item._id}
+                    onClick={() => router(`/song/${item._id}`)}
+                  >
+                    <div className="item-container">
+                      {item.thumbnail ? (
+                        <img
+                          src={item.thumbnail}
+                          alt={`${item.name} thumbnail`}
+                        />
+                      ) : (
+                        <p>No thumbnail available</p>
+                      )}
+                      <h2 className="item-title">{item.title}</h2>
+                      <div className="item-artists">
+                        {item.artist.map((artist, index) => (
+                          <span key={index} className="item-artist">
+                            {artist.name},{" "}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
-      </div>
 
-      <div className="trending">
-        <h1 className="section-title">Top 20 Of this Week</h1>
-
-        <div className="songs">
-          {week20.map((item) => (
-            <div
-              className="song-item"
-              key={item._id}
-              onClick={() => router(`/song/${item._id}`)}
-            >
-              <div className="item-container">
-                {item.thumbnail ? (
-                  <img src={item.thumbnail} alt={`${item.name} thumbnail`} />
-                ) : (
-                  <p>No thumbnail available</p>
-                )}
-                <h2 className="item-title">{item.title}</h2>
-                <div className="item-artists">
-                  {item.artist.map((artist, index) => (
-                    <span key={index} className="item-artist">
-                      {artist.name},{" "}
-                    </span>
-                  ))}
-                </div>
+            <div className="trending">
+              <h1 className="section-title">Top 20 Of this Week</h1>
+              <div className="songs">
+                {week20.map((item) => (
+                  <div
+                    className="song-item"
+                    key={item._id}
+                    onClick={() => router(`/song/${item._id}`)}
+                  >
+                    <div className="item-container">
+                      {item.thumbnail ? (
+                        <img
+                          src={item.thumbnail}
+                          alt={`${item.name} thumbnail`}
+                        />
+                      ) : (
+                        <p>No thumbnail available</p>
+                      )}
+                      <h2 className="item-title">{item.title}</h2>
+                      <div className="item-artists">
+                        {item.artist.map((artist, index) => (
+                          <span key={index} className="item-artist">
+                            {artist.name},{" "}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
-      </div>
 
-      <div className="trending">
-        <h1 className="section-title">Top 50 Of this Month</h1>
-
-        <div className="songs">
-          {month50.map((item) => (
-            <div
-              className="song-item"
-              key={item._id}
-              onClick={() => router(`/song/${item._id}`)}
-            >
-              <div className="item-container">
-                {item.thumbnail ? (
-                  <img src={item.thumbnail} alt={`${item.name} thumbnail`} />
-                ) : (
-                  <p>No thumbnail available</p>
-                )}
-                <h2 className="item-title">{item.title}</h2>
-                <div className="item-artists">
-                  {item.artist.map((artist, index) => (
-                    <span key={index} className="item-artist">
-                      {artist.name},{" "}
-                    </span>
-                  ))}
-                </div>
+            <div className="trending">
+              <h1 className="section-title">Top 50 Of this Month</h1>
+              <div className="songs">
+                {month50.map((item) => (
+                  <div
+                    className="song-item"
+                    key={item._id}
+                    onClick={() => router(`/song/${item._id}`)}
+                  >
+                    <div className="item-container">
+                      {item.thumbnail ? (
+                        <img
+                          src={item.thumbnail}
+                          alt={`${item.name} thumbnail`}
+                        />
+                      ) : (
+                        <p>No thumbnail available</p>
+                      )}
+                      <h2 className="item-title">{item.title}</h2>
+                      <div className="item-artists">
+                        {item.artist.map((artist, index) => (
+                          <span key={index} className="item-artist">
+                            {artist.name},{" "}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
-      </div>
 
-      <div className="trending">
-        <h1 className="section-title">Evergreen Songs</h1>
-
-        <div className="songs">
-          {evergreen.map((item) => (
-            <div
-              className="song-item"
-              key={item._id}
-              onClick={() => router(`/song/${item._id}`)}
-            >
-              <div className="item-container">
-                {item.thumbnail ? (
-                  <img src={item.thumbnail} alt={`${item.name} thumbnail`} />
-                ) : (
-                  <p>No thumbnail available</p>
-                )}
-                <h2 className="item-title">{item.title}</h2>
-                <div className="item-artists">
-                  {item.artist.map((artist, index) => (
-                    <span key={index} className="item-artist">
-                      {artist.name},{" "}
-                    </span>
-                  ))}
-                </div>
+            <div className="trending">
+              <h1 className="section-title">Evergreen Songs</h1>
+              <div className="songs">
+                {evergreen.map((item) => (
+                  <div
+                    className="song-item"
+                    key={item._id}
+                    onClick={() => router(`/song/${item._id}`)}
+                  >
+                    <div className="item-container">
+                      {item.thumbnail ? (
+                        <img
+                          src={item.thumbnail}
+                          alt={`${item.name} thumbnail`}
+                        />
+                      ) : (
+                        <p>No thumbnail available</p>
+                      )}
+                      <h2 className="item-title">{item.title}</h2>
+                      <div className="item-artists">
+                        {item.artist.map((artist, index) => (
+                          <span key={index} className="item-artist">
+                            {artist.name},{" "}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
-      </div>
 
-      <div className="trending">
-        <h1 className="section-title">Mood Happy Songs</h1>
-
-        <div className="songs">
-          {happy.map((item) => (
-            <div
-              className="song-item"
-              key={item._id}
-              onClick={() => router(`/song/${item._id}`)}
-            >
-              <div className="item-container">
-                {item.thumbnail ? (
-                  <img src={item.thumbnail} alt={`${item.name} thumbnail`} />
-                ) : (
-                  <p>No thumbnail available</p>
-                )}
-                <h2 className="item-title">{item.title}</h2>
-                <div className="item-artists">
-                  {item.artist.map((artist, index) => (
-                    <span key={index} className="item-artist">
-                      {artist.name},{" "}
-                    </span>
-                  ))}
-                </div>
+            <div className="trending">
+              <h1 className="section-title">Mood Happy Songs</h1>
+              <div className="songs">
+                {happy.map((item) => (
+                  <div
+                    className="song-item"
+                    key={item._id}
+                    onClick={() => router(`/song/${item._id}`)}
+                  >
+                    <div className="item-container">
+                      {item.thumbnail ? (
+                        <img
+                          src={item.thumbnail}
+                          alt={`${item.name} thumbnail`}
+                        />
+                      ) : (
+                        <p>No thumbnail available</p>
+                      )}
+                      <h2 className="item-title">{item.title}</h2>
+                      <div className="item-artists">
+                        {item.artist.map((artist, index) => (
+                          <span key={index} className="item-artist">
+                            {artist.name},{" "}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
-      </div>
 
-      <div className="trending">
-        <h1 className="section-title">Romantic Songs</h1>
-
-        <div className="songs">
-          {romantic.map((item) => (
-            <div
-              className="song-item"
-              key={item._id}
-              onClick={() => router(`/song/${item._id}`)}
-            >
-              <div className="item-container">
-                {item.thumbnail ? (
-                  <img src={item.thumbnail} alt={`${item.name} thumbnail`} />
-                ) : (
-                  <p>No thumbnail available</p>
-                )}
-                <h2 className="item-title">{item.title}</h2>
-                <div className="item-artists">
-                  {item.artist.map((artist, index) => (
-                    <span key={index} className="item-artist">
-                      {artist.name},{" "}
-                    </span>
-                  ))}
-                </div>
+            <div className="trending">
+              <h1 className="section-title">Romantic Songs</h1>
+              <div className="songs">
+                {romantic.map((item) => (
+                  <div
+                    className="song-item"
+                    key={item._id}
+                    onClick={() => router(`/song/${item._id}`)}
+                  >
+                    <div className="item-container">
+                      {item.thumbnail ? (
+                        <img
+                          src={item.thumbnail}
+                          alt={`${item.name} thumbnail`}
+                        />
+                      ) : (
+                        <p>No thumbnail available</p>
+                      )}
+                      <h2 className="item-title">{item.title}</h2>
+                      <div className="item-artists">
+                        {item.artist.map((artist, index) => (
+                          <span key={index} className="item-artist">
+                            {artist.name},{" "}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
-      </div>
 
-      <div className="trending">
-        <h1 className="section-title">Excited Songs</h1>
-
-        <div className="songs">
-          {excited.map((item) => (
-            <div
-              className="song-item"
-              key={item._id}
-              onClick={() => router(`/song/${item._id}`)}
-            >
-              <div className="item-container">
-                {item.thumbnail ? (
-                  <img src={item.thumbnail} alt={`${item.name} thumbnail`} />
-                ) : (
-                  <p>No thumbnail available</p>
-                )}
-                <h2 className="item-title">{item.title}</h2>
-                <div className="item-artists">
-                  {item.artist.map((artist, index) => (
-                    <span key={index} className="item-artist">
-                      {artist.name},{" "}
-                    </span>
-                  ))}
-                </div>
+            <div className="trending">
+              <h1 className="section-title">Excited Songs</h1>
+              <div className="songs">
+                {excited.map((item) => (
+                  <div
+                    className="song-item"
+                    key={item._id}
+                    onClick={() => router(`/song/${item._id}`)}
+                  >
+                    <div className="item-container">
+                      {item.thumbnail ? (
+                        <img
+                          src={item.thumbnail}
+                          alt={`${item.name} thumbnail`}
+                        />
+                      ) : (
+                        <p>No thumbnail available</p>
+                      )}
+                      <h2 className="item-title">{item.title}</h2>
+                      <div className="item-artists">
+                        {item.artist.map((artist, index) => (
+                          <span key={index} className="item-artist">
+                            {artist.name},{" "}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
-      </div>
 
-      <div className="trending">
-        <h1 className="section-title">Sad Songs</h1>
-
-        <div className="songs">
-          {sad.map((item) => (
-            <div
-              className="song-item"
-              key={item._id}
-              onClick={() => router(`/song/${item._id}`)}
-            >
-              <div className="item-container">
-                {item.thumbnail ? (
-                  <img src={item.thumbnail} alt={`${item.name} thumbnail`} />
-                ) : (
-                  <p>No thumbnail available</p>
-                )}
-                <h2 className="item-title">{item.title}</h2>
-                <div className="item-artists">
-                  {item.artist.map((artist, index) => (
-                    <span key={index} className="item-artist">
-                      {artist.name},{" "}
-                    </span>
-                  ))}
-                </div>
+            <div className="trending">
+              <h1 className="section-title">Sad Songs</h1>
+              <div className="songs">
+                {sad.map((item) => (
+                  <div
+                    className="song-item"
+                    key={item._id}
+                    onClick={() => router(`/song/${item._id}`)}
+                  >
+                    <div className="item-container">
+                      {item.thumbnail ? (
+                        <img
+                          src={item.thumbnail}
+                          alt={`${item.name} thumbnail`}
+                        />
+                      ) : (
+                        <p>No thumbnail available</p>
+                      )}
+                      <h2 className="item-title">{item.title}</h2>
+                      <div className="item-artists">
+                        {item.artist.map((artist, index) => (
+                          <span key={index} className="item-artist">
+                            {artist.name},{" "}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
-      </div>
-
-    </div>
+          </div>
+        </>
+      )}
     </>
   );
 };

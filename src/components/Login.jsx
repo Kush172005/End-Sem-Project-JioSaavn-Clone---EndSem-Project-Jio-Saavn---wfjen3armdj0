@@ -1,17 +1,13 @@
 import React, { useState } from "react";
-import "./Signup.css";
 import { useNavigate } from "react-router-dom";
+import { HashLoader } from "react-spinners";
 import { toast } from "react-toastify";
 
-const Login = ({setToken}) => {
-  // const [name, setName] = useState("");
+const Login = ({ setToken, setLogged }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigateTS = useNavigate();
-  const navigateTM = useNavigate();
-
-  const toMain = () => navigateTM("/content");
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -36,16 +32,11 @@ const Login = ({setToken}) => {
 
       const data = await response.json();
       setToken(data.token);
-      console.log(data.token);
 
-      
-      console.log(response.ok);
       if (response.ok) {
-        toast.success("Login Successfull Taking you to the Main Page")
-        setTimeout(() => {
-          toMain();
-        }, 2000)
-
+        toast.success("Login Successful");
+        setLogged(true);
+        navigate("/content");
         setEmail("");
         setPassword("");
         setError("");
@@ -54,7 +45,7 @@ const Login = ({setToken}) => {
       }
     } catch (error) {
       console.error("Error:", error);
-      setError("Error Login up");
+      setError("Error logging in");
     }
   };
 
@@ -63,7 +54,7 @@ const Login = ({setToken}) => {
       <div className="left-column">
         <div className="content">
           <img
-            srcset="https://d3dyfaf3iutrxo.cloudfront.net/general/upload/8c2f013457144ca195423e726c231708.png"
+            srcSet="https://d3dyfaf3iutrxo.cloudfront.net/general/upload/8c2f013457144ca195423e726c231708.png"
             className="logo"
             alt="Logo"
           />
@@ -103,7 +94,7 @@ const Login = ({setToken}) => {
         </div>
         <div className="footer">
           <div className="footer-text">Don't have an account? </div>
-          <button onClick={() => navigateTS("/signup")} className="login-link">
+          <button onClick={() => navigate("/signup")} className="login-link">
             Create one
           </button>
         </div>

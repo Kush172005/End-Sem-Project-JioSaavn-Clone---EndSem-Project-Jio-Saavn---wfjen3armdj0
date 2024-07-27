@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { HashLoader } from "react-spinners";
 import "./Songs.css";
 
 const Songs = ({ token }) => {
@@ -45,7 +46,12 @@ const Songs = ({ token }) => {
     <div className="song-container">
       {songs.length === 0 ? (
         <div className="loading-message">
-          <h1>Loading . . .</h1>
+          <HashLoader
+            color={"#bcbbbb"}
+            size={80}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
         </div>
       ) : (
         <div className="song-content">
@@ -72,4 +78,4 @@ const Songs = ({ token }) => {
   );
 };
 
-export default Songs; 
+export default Songs;
