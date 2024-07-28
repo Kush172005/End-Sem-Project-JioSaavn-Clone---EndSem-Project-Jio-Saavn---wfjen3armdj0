@@ -31,7 +31,7 @@ const Content = ({ token }) => {
       setLoading(false);
     };
     fetchAllVideos();
-  }, []);
+  }, [token]);
 
   const fetchData = async (url, setter) => {
     try {
