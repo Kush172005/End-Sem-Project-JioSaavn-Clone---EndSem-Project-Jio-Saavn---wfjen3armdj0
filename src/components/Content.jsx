@@ -17,82 +17,66 @@ const Content = ({ token }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchData = async (url, setter) => {
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            accept: "application/json",
+            projectID: "bng7dtu7whwk",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+        const data = await response.json();
+        setter(data.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
     const fetchAllVideos = async () => {
       await Promise.all([
-        fetchVideos1(),
-        fetchVideos2(),
-        fetchVideos3(),
-        fetchVideos4(),
-        fetchVideos5(),
-        fetchVideos6(),
-        fetchVideos7(),
-        fetchVideos8(),
+        fetchData(
+          "https://academics.newtonschool.co/api/v1/musicx/song?featured=Trending%20songs",
+          setTrendingSongs
+        ),
+        fetchData(
+          "https://academics.newtonschool.co/api/v1/musicx/song?featured=Top%2020%20of%20this%20week",
+          setWeek20
+        ),
+        fetchData(
+          "https://academics.newtonschool.co/api/v1/musicx/song?featured=Top%2050%20of%20this%20month",
+          setMonth50
+        ),
+        fetchData(
+          "https://academics.newtonschool.co/api/v1/musicx/song?featured=Evergreen%20melodies",
+          setEvergreen
+        ),
+        fetchData(
+          "https://academics.newtonschool.co/api/v1/musicx/song?mood=happy",
+          setHappy
+        ),
+        fetchData(
+          "https://academics.newtonschool.co/api/v1/musicx/song?mood=romantic",
+          setRomantic
+        ),
+        fetchData(
+          "https://academics.newtonschool.co/api/v1/musicx/song?mood=excited",
+          setExcited
+        ),
+        fetchData(
+          "https://academics.newtonschool.co/api/v1/musicx/song?mood=sad",
+          setSad
+        ),
       ]);
       setLoading(false);
     };
+
     fetchAllVideos();
   }, [token]);
-
-  const fetchData = async (url, setter) => {
-    try {
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          projectID: "bng7dtu7whwk",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status} ${response.statusText}`);
-      }
-      const data = await response.json();
-      setter(data.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  const fetchVideos1 = () =>
-    fetchData(
-      "https://academics.newtonschool.co/api/v1/musicx/song?featured=Trending%20songs",
-      setTrendingSongs
-    );
-  const fetchVideos2 = () =>
-    fetchData(
-      "https://academics.newtonschool.co/api/v1/musicx/song?featured=Top%2020%20of%20this%20week",
-      setWeek20
-    );
-  const fetchVideos3 = () =>
-    fetchData(
-      "https://academics.newtonschool.co/api/v1/musicx/song?featured=Top%2050%20of%20this%20month",
-      setMonth50
-    );
-  const fetchVideos4 = () =>
-    fetchData(
-      "https://academics.newtonschool.co/api/v1/musicx/song?featured=Evergreen%20melodies",
-      setEvergreen
-    );
-  const fetchVideos5 = () =>
-    fetchData(
-      "https://academics.newtonschool.co/api/v1/musicx/song?mood=happy",
-      setHappy
-    );
-  const fetchVideos6 = () =>
-    fetchData(
-      "https://academics.newtonschool.co/api/v1/musicx/song?mood=romantic",
-      setRomantic
-    );
-  const fetchVideos7 = () =>
-    fetchData(
-      "https://academics.newtonschool.co/api/v1/musicx/song?mood=excited",
-      setExcited
-    );
-  const fetchVideos8 = () =>
-    fetchData(
-      "https://academics.newtonschool.co/api/v1/musicx/song?mood=sad",
-      setSad
-    );
 
   return (
     <>
@@ -116,7 +100,7 @@ const Content = ({ token }) => {
               <div className="songs">
                 {trending.map((item) => (
                   <div
-                    className="song-item "
+                    className="song-item"
                     key={item._id}
                     onClick={() => router(`/song/${item._id}`)}
                   >
