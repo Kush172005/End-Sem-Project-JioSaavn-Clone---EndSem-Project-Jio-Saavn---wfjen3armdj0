@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { HashLoader } from "react-spinners";
 import { toast } from "react-toastify";
 
 const Login = ({ setToken, setLogged }) => {
