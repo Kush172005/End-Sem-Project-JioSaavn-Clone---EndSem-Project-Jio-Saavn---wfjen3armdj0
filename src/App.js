@@ -33,11 +33,15 @@ const ConditionalHeader = ({ logged }) => {
   const location = useLocation();
   const hideHeaderPaths1 = ["/login"];
   const hideHeaderPaths2 = ["/signup"];
+  const hideHeaderPaths3 = ["/"];
 
   if (hideHeaderPaths1.includes(location.pathname)) {
     return null;
   }
   if (hideHeaderPaths2.includes(location.pathname)) {
+    return null;
+  }
+  if (hideHeaderPaths3.includes(location.pathname)) {
     return null;
   }
 
